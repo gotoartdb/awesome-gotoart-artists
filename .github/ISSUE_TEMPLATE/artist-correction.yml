@@ -1,0 +1,19 @@
+name: Artist correction
+description: Report an issue with a publicly visible artist entry.
+title: "Artist correction: "
+labels: ["artist-data"]
+body:
+  - type: input
+    id: profile
+    attributes:
+      label: GotoArt profile URL
+      placeholder: https://h5.goto.art/#/artist/A123
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Requested correction
+      description: Do not include phone numbers, private email addresses, or unpublished work.
+    validations:
+      required: true

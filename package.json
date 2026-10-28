@@ -1,0 +1,7 @@
+{
+  "name": "awesome-gotoart-artists",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-readme.mjs"
+  }
+}
