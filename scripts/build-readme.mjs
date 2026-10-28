@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const readmePath = resolve(root, 'README.md');
 const api = process.env.GOTOART_ARTISTS_API || 'https://h5.goto.art/api/artists';
-const profileBase = 'https://h5.goto.art/#/artist/';
+// SEO 落地页使用独立展示站，而不是运营 H5 的 hash 路由。
+const profileBase = 'https://goto.art/artists/';
 const categories = [
   ['a2_01', 'Painting'],
   ['a2_02', 'Sculpture'],
@@ -98,10 +99,20 @@ for (const [id, label] of categories) {
 if (uncategorized.length) sections.push('', '### Other', '', ...uncategorized.map(entry));
 
 const readme = await readFile(readmePath, 'utf8');
-const marker = '## Browse the directory';
-const before = readme.slice(0, readme.indexOf(marker));
-const after = readme.slice(readme.indexOf('## Contributing'));
-if (!before || !after) throw new Error('README markers are missing');
+const directoryStart = readme.indexOf('## Directory');
+const contributingStart = readme.indexOf('## Contributing');
+const before = directoryStart >= 0
+  ? readme.slice(0, directoryStart)
+  : readme.slice(0, contributingStart);
+if (!before) throw new Error('README directory or contributing section is missing');
+const after = `## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before suggesting an artist or reporting a correction.
+
+## License
+
+The repository's editorial structure and automation are available under the [MIT License](LICENSE). Individual artist names, biographies, works, images, and linked profile content remain with their respective rights holders.
+`;
 await mkdir(root, { recursive: true });
 await writeFile(readmePath, `${before}${sections.join('\n')}\n\n${after}`);
 console.log(`Generated ${validArtists.length} public artist entries.`);
