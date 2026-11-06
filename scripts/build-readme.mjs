@@ -7,7 +7,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const readmePath = resolve(root, 'README.md');
 const api = process.env.GOTOART_ARTISTS_API || 'https://h5.goto.art/api/artists';
 // SEO 落地页使用独立展示站，而不是运营 H5 的 hash 路由。
-const profileBase = 'https://goto.art/artists/';
+const profileBase = 'https://goto.art/artist/';
 const categories = [
   ['a2_01', 'Painting'],
   ['a2_02', 'Sculpture'],
